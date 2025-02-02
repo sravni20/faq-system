@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}FAQs{% endblock %}
+{% block content %}
+<div class="container faq-section">
+    <h1 class="faq-title">Frequently Asked Questions</h1>
+    <input type="text" class="form-control" id="search" placeholder="Search FAQs...">
+    <div id="faq-container">
+        {% for faq in faqs %}
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                {{ faq.question }}
+            </div>
+            <div class="faq-answer">
+                {{ faq.answer }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    // Toggle FAQ answer visibility
+    function toggleAnswer(element) {
+        const answer = element.nextElementSibling;
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Search FAQs
+    document.getElementById('search').addEventListener('input', function () {
+        const searchValue = this.value.toLowerCase();
+        const faqs = document.querySelectorAll('.faq-item');
+        faqs.forEach(faq => {
+            const question = faq.querySelector('.faq-question').textContent.toLowerCase();
+            faq.style.display = question.includes(searchValue) ? '' : 'none';
+        });
+    });
+</script>
+{% endblock %}
